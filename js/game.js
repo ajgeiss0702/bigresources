@@ -218,7 +218,7 @@ function main() {
               if(morestone < 0) {
                 morestone = 0;
               }
-              alert("You do not have enough resources! You need " + (moregold) + " more gold and "+morestone+" more stone to buy that!");
+              alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
             }
           } else {
             alert("You cannot have more than 500 auto-miners!");
