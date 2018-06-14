@@ -111,7 +111,7 @@ var buttons = [
           new Mine();
           materials.stone -= mineprice;
         } else {
-          alert("You do not have enough stone! You need " + ((materials.stone-10)*-1) + " more stone to buy that!");
+          alert("You do not have enough stone! You need " + ((materials.stone-mineprice)*-1) + " more stone to buy that!");
         }
       } else {
         alert("You cannot have more than 500 mines!");
