@@ -96,22 +96,22 @@ var iv = setInterval(function() {
   }
 }, 1);
 
-var mineprice = 10;
+var stuff = {stuff.mineprice: 10};
 // buttons
 var buttons = [
   {
     x: 10,
     y: 2,
     height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
-    text: "Buy mine ("+mineprice+" stone)",
+    text: "Buy mine ("+stuff.mineprice+" stone)",
     click: function() {
-      buttons[0].text = "Buy mine ("+mineprice+" stone)";
+      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
       if(getters.mines.length <= 500) {
-        if(materials.stone >= mineprice) {
+        if(materials.stone >= stuff.mineprice) {
           new Mine();
-          materials.stone -= mineprice;
+          materials.stone -= stuff.mineprice;
         } else {
-          alert("You do not have enough stone! You need " + ((materials.stone-mineprice)*-1) + " more stone to buy that!");
+          alert("You do not have enough stone! You need " + ((materials.stone-stuff.mineprice)*-1) + " more stone to buy that!");
         }
       } else {
         alert("You cannot have more than 500 mines!");
@@ -232,15 +232,15 @@ function main() {
     if(recalcbuttons) {
       buttons[1].x = buttons[0].width+15;
     }
-    if(getters.autominers.length >= 2 & mineprice < 37) {
-      mineprice = 37;
-      buttons[0].text = "Buy mine ("+mineprice+" stone)";
-    } else if(getters.autominers.length >= 10 & mineprice < 50) {
-      mineprice = 50;
-      buttons[0].text = "Buy mine ("+mineprice+" stone)";
-    } else if(getters.autominers.length >= 25 & mineprice < 100) {
-      mineprice = 100;
-      buttons[0].text = "Buy mine ("+mineprice+" stone)";
+    if(getters.autominers.length >= 2 & stuff.mineprice < 37) {
+      stuff.mineprice = 37;
+      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
+    } else if(getters.autominers.length >= 10 & stuff.mineprice < 50) {
+      stuff.mineprice = 50;
+      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
+    } else if(getters.autominers.length >= 25 & stuff.mineprice < 100) {
+      stuff.mineprice = 100;
+      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
       recalcbuttons = true;
     }
   }, 250);
