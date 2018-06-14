@@ -96,7 +96,7 @@ var iv = setInterval(function() {
   }
 }, 1);
 
-var stuff = {stuff.mineprice: 10};
+var stuff = {mineprice: 10};
 // buttons
 var buttons = [
   {
