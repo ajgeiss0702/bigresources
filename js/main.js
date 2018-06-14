@@ -30,13 +30,14 @@ class Mine {
       } else {
         materials.gold = 1;
       }
+      return "gold";
     }
     if(this.cd <= 0) {
 
       materials.stone += 1;
       this.cd = 20;
       this.cds = this.cd/4;
-      return true;
+      return "stone";
 
     } else {
 
@@ -65,13 +66,14 @@ class AutoMiner {
       } else {
         materials.gold = 1;
       }
+      return "gold";
     }
     if(this.cd <= 0) {
 
       materials.stone += 1;
       this.cd = 12;
       this.cds = this.cd/4;
-      return true;
+      return "stone";
 
     } else {
 

@@ -157,8 +157,11 @@ function main() {
         c.font = "15px Arial";
         c.fillStyle = "black";
         c.fillText(Math.round(getters[Object.keys(getters)[i]][x].cd/4)+1, xoffset, ((((h-(getters[Object.keys(getters)[i]][x].texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
-        if(Math.round(getters[Object.keys(getters)[i]][x].cd/4)+1 == (getters[Object.keys(getters)[i]][x].cds+1)) {
-          c.drawImage($('#rock')[0], xoffset+getters[Object.keys(getters)[i]][x].texture.width, ((((h-(getters[Object.keys(getters)[i]][x].texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35));
+        if(resp == "stone") {
+          c.drawImage($('#stone')[0], xoffset+getters[Object.keys(getters)[i]][x].texture.width, ((((h-(getters[Object.keys(getters)[i]][x].texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35));
+        } else if(resp == "gold") {
+          img = $('#gold')[0];
+          c.drawImage(img, xoffset-img.width, ((((h-(getters[Object.keys(getters)[i]][x].texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35));
         }
         x++;
       }
