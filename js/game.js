@@ -106,15 +106,11 @@ var buttons = [
     text: "Buy mine ("+stuff.mineprice+" stone)",
     click: function() {
       buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-      if(getters.mines.length <= 500) {
-        if(materials.stone >= stuff.mineprice) {
-          new Mine();
-          materials.stone -= stuff.mineprice;
-        } else {
-          alert("You do not have enough stone! You need " + ((materials.stone-stuff.mineprice)*-1) + " more stone to buy that!");
-        }
+      if(materials.stone >= stuff.mineprice) {
+        new Mine();
+        materials.stone -= stuff.mineprice;
       } else {
-        alert("You cannot have more than 500 mines!");
+        alert("You do not have enough stone! You need " + ((materials.stone-stuff.mineprice)*-1) + " more stone to buy that!");
       }
     }
   },
@@ -207,24 +203,20 @@ function main() {
         height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
         text: "Buy auto-mine (15 gold & 50 stone)",
         click: function() {
-          if(getters.autominers.length <= 500) {
-            if(materials.gold >= 15 & materials.stone >= 50) {
-              materials.stone -= 50;
-              materials.gold -= 15;
-              new AutoMiner();
-            } else {
-              moregold = (materials.gold-15)*-1;
-              if(moregold < 0) {
-                moregold = 0;
-              }
-              morestone = (materials.stone-50)*-1;
-              if(morestone < 0) {
-                morestone = 0;
-              }
-              alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
-            }
+          if(materials.gold >= 15 & materials.stone >= 50) {
+            materials.stone -= 50;
+            materials.gold -= 15;
+            new AutoMiner();
           } else {
-            alert("You cannot have more than 500 auto-miners!");
+            moregold = (materials.gold-15)*-1;
+            if(moregold < 0) {
+              moregold = 0;
+            }
+            morestone = (materials.stone-50)*-1;
+            if(morestone < 0) {
+              morestone = 0;
+            }
+            alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
           }
         }
       };
