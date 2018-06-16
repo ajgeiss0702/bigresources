@@ -10,20 +10,23 @@ I have probably changed the name because I just thought of something random to n
 
 */
 
+var fps = 15;
+
 
 class Mine {
   constructor(precd) {
     //cd = cooldown
     this.cd = precd || 0;
-    getters.mines.push(this);
     this.texture = $('#mine')[0];
+    this.type = "mine";
+    getters.mines.push(this);
   }
 
   think() {
     if(typeof this.texture == 'undefined') {
       this.texture = $('#mine')[0];
     }
-    var num = Math.round(Math.random()*75);
+    var num = Math.round(Math.random()*200);
     if(num == 1 & materials.stone >= 20) {
       if(materials.gold) {
         materials.gold += 1;
@@ -35,8 +38,8 @@ class Mine {
     if(this.cd <= 0) {
 
       materials.stone += 1;
-      this.cd = 20;
-      this.cds = this.cd/4;
+      this.cd = 75;
+      this.cds = this.cd/fps;
       return "stone";
 
     } else {
@@ -52,6 +55,7 @@ class AutoMiner {
   constructor(precd) {
     this.cd = precd || 0;
     this.texture = $('#autominer')[0];
+    this.type = "autominer";
     getters.autominers.push(this);
   }
 
@@ -59,7 +63,7 @@ class AutoMiner {
     if(typeof this.texture == 'undefined') {
       this.texture = $('#autominer')[0];
     }
-    var num = Math.round(Math.random()*35);
+    var num = Math.round(Math.random()*90);
     if(num == 1 & materials.stone >= 20) {
       if(materials.gold) {
         materials.gold += 1;
@@ -71,9 +75,37 @@ class AutoMiner {
     if(this.cd <= 0) {
 
       materials.stone += 1;
-      this.cd = 12;
-      this.cds = this.cd/4;
+      this.cd = 30;
+      this.cds = this.cd/fps;
       return "stone";
+
+    } else {
+
+      this.cd -= 1;
+      return false;
+
+    }
+  }
+}
+
+class OilRig {
+  constructor(precd) {
+    this.cd = precd || 0;
+    this.texture = $('#oilrig')[0];
+    this.type = "oilrig";
+    getters.oilrigs.push(this);
+  }
+
+  think() {
+    if(typeof this.texture == 'undefined') {
+      this.texture = $('#oilrig')[0];
+    }
+    if(this.cd <= 0) {
+
+      materials.gold += 1;
+      this.cd = 75;
+      this.cds = this.cd/fps;
+      return "gold";
 
     } else {
 
@@ -130,10 +162,13 @@ function loadGetters() {
     var x = 0;
     while(x < (gettercount[Object.keys(gettercount)[i]]).length) {
       gettername = Object.keys(gettercount)[i];
+      gettercd = gettercount[Object.keys(gettercount)[i]][x];
       if(gettername == "mines" & x !== 0) {
         new Mine(gettercount[Object.keys(gettercount)[i]][x]);
       } else if(gettername == "autominers") {
-        new AutoMiner(gettercount[Object.keys(gettercount)[i]][x]);
+        new AutoMiner(gettercd);
+      } else if(gettername == "oilrigs") {
+        new OilRig(gettercd);
       }
       x++;
     }
@@ -141,13 +176,13 @@ function loadGetters() {
   }
 }
 
-var getters = { mines: [], autominers: [] };
+var getters = { mines: [], autominers: [], oilrigs: [] };
 loadGetters();
 var materials = JSON.parse(localStorage.getItem("materialsStore")) || { stone: 0 };
 
 function setSaveInterval() {
   setInterval(function() {
-    var gettercount = {mines: [], autominers: []};
+    var gettercount = {mines: [], autominers: [], oilrigs: []};
     var i = 0;
     while(i < Object.keys(getters).length) {
       var x = 0;
