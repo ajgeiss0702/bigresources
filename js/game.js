@@ -40,7 +40,7 @@ var iv = setInterval(function() {
       if(drawimg) {
         ii = i3*i3;
         //console.log(i3+", "+ii+", "+Math.sqrt(ii));
-        c.fillStyle = "lightgrey";
+        c.fillStyle = localStorage.getItem('bgc') || "white";
         c.fillRect((((w)-(img.width))/2)-10, ((h-img.height)/2)-10, img.width+20, Math.sqrt(ii)+20);
         c.drawImage(img, ((w)-(img.width))/2, (h-img.height)/2, img.width, i3);
       }
@@ -50,7 +50,7 @@ var iv = setInterval(function() {
         var i4 = h;
         var i5 = 0;
         var iv3 = setInterval(function() {
-          c.strokeStyle = "white";
+          c.strokeStyle = localStorage.getItem('bgc') || "white";
 
           c.moveTo(0, 0);
           c.lineTo(w/2, i);
@@ -71,7 +71,7 @@ var iv = setInterval(function() {
               var ivv = setInterval(function() {
                 iii+= 0.05;
                 c.globalAlpha = iii;
-                c.fillStyle = "white";
+                c.fillStyle = localStorage.getItem('bgc') || "white";
                 c.fillRect(0, 0, w, h);
                 if(iii >= 0.7) {
                   clearInterval(ivv);

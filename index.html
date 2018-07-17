@@ -5,8 +5,21 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/main.js"></script>
     <script async src="js/game.js"></script>
+    <script async src="js/color.js"></script>
   </head>
   <body>
+    <div class="settingsbox slideout">
+      <h1>Big Resources settings</h1>
+      <h3>Background color</h3>
+      <div id="colors"></div>
+    </div>
+
+    <div class="settings">
+      <a onclick="showSettings()">
+        <img class="settings" src="img/settings.png">
+      </a>
+    </div>
+
     <canvas id="main" class="main"></canvas>
     <img id="ajlogo" class="hide" src="img/logo.png">
     <img id="mine" class="hide" src="img/mine.gif">
@@ -14,5 +27,6 @@
     <img id="autominer" class="hide" src="img/autominer.png">
     <img id="gold" class="hide" src="img/gold.png">
     <img id="oilrig" class="hide" src = "img/oilrig.png">
+
   </body>
 </html>

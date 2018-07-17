@@ -15,7 +15,62 @@ canvas.main {
 body, html {
   padding: 0;
   margin: 0;
+  transition: 0.5s;
+  transition-timing-function: ease-in-out;
 }
 img.hide {
   display: none;
+}
+
+.settingsbox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(calc(-50% - .5px));
+  -webkit-transform: translateX(-50%) translateY(calc(-50% - .5px));
+
+  width: 87vw;
+  height: 75vh;
+  overflow: auto;
+
+  text-align: center;
+  font-size: 1em;
+
+  background-color: rgba(206, 206, 206, 0.9);
+  border-radius: 1vh;
+
+  transition: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+.slideout {
+  transform: translateX(100vw);
+}
+.color {
+  display: inline-block;
+  min-width: 5em;
+  min-height: 2em;
+  border-radius: 0.3em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+
+  border-style: solid;
+  border-width: 0.1%;
+  border-color: black;
+}
+
+.settings {
+  position: fixed;
+  right: 1%;
+  bottom: 2%;
+  cursor: pointer;
+}
+img.settings {
+  width: 5%;
+}
+img.settings {
+  transition: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+img.settings:hover {
+  transform: scale(1.15);
 }
