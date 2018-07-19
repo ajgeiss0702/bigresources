@@ -20,9 +20,18 @@ const c = can.getContext("2d");
 
 setTimeout(function(){
   if(!idone) {
-    clearInterval(iv);
-    clearInterval(iv3);
-    clearInterval(ivv);
+    if(typeof iv !== 'undefined') {
+      clearInterval(iv);
+    }
+    if(typeof iv2 !== 'undefined') {
+      clearInterval(iv2);
+    }
+    if(typeof iv3 !== 'undefined') {
+      clearInterval(iv3);
+    }
+    if(typeof ivv !== 'undefined') {
+      clearInterval(ivv);
+    }
     main();
   }
 }, 5000);
@@ -51,7 +60,9 @@ var iv = setInterval(function() {
       if(drawimg) {
         ii = i3*i3;
         //console.log(i3+", "+ii+", "+Math.sqrt(ii));
-        c.fillStyle = localStorage.getItem('bgc') || "white";
+        try {
+          c.fillStyle = localStorage.getItem('bgc') || "white";
+        } catch (e) {}
         c.fillRect((((w)-(img.width))/2)-10, ((h-img.height)/2)-10, img.width+20, Math.sqrt(ii)+20);
         c.drawImage(img, ((w)-(img.width))/2, (h-img.height)/2, img.width, i3);
       }
@@ -61,7 +72,9 @@ var iv = setInterval(function() {
         var i4 = h;
         var i5 = 0;
         var iv3 = setInterval(function() {
-          c.strokeStyle = localStorage.getItem('bgc') || "white";
+          try {
+            c.strokeStyle = localStorage.getItem('bgc') || "white";
+          } catch (e) {}
 
           c.moveTo(0, 0);
           c.lineTo(w/2, i);
@@ -82,7 +95,9 @@ var iv = setInterval(function() {
               var ivv = setInterval(function() {
                 iii+= 0.05;
                 c.globalAlpha = iii;
-                c.fillStyle = localStorage.getItem('bgc') || "white";
+                try {
+                  c.fillStyle = localStorage.getItem('bgc') || "white";
+                } catch (e) {}
                 c.fillRect(0, 0, w, h);
                 if(iii >= 0.7) {
                   clearInterval(ivv);

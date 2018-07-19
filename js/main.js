@@ -12,6 +12,11 @@ I have probably changed the name because I just thought of something random to n
 
 var fps = 15;
 
+var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+if(!isChrome) {
+  alert("This game was developed on chrome, and runs smoothest on there.\n\nMost things should still work on other browsers, but its not garenteed.");
+}
+
 
 class Mine {
   constructor(precd) {
@@ -152,7 +157,10 @@ function httpGet(theUrl, callback) {
   }
 }
 function loadGetters() {
-  var gettercount = JSON.parse(localStorage.getItem("gettersStore"));
+  var gettercount;
+  try {
+    gettercount = JSON.parse(localStorage.getItem("gettersStore"));
+  } catch (e) {}
   if(gettercount == null) {
     console.log("loadsave returned null! This must be your first time playing (on this computer)!");
     return false;
@@ -178,7 +186,10 @@ function loadGetters() {
 
 var getters = { mines: [], autominers: [], oilrigs: [] };
 loadGetters();
-var materials = JSON.parse(localStorage.getItem("materialsStore")) || { stone: 0 };
+var materials = {stone: 0};
+try {
+  materials = JSON.parse(localStorage.getItem("materialsStore")) || { stone: 0 };
+} catch (e) {}
 
 function setSaveInterval() {
   setInterval(function() {
@@ -192,7 +203,9 @@ function setSaveInterval() {
       }
       i++;
     }
-    localStorage.setItem("gettersStore", JSON.stringify(gettercount));
-    localStorage.setItem("materialsStore", JSON.stringify(materials));
+    try {
+      localStorage.setItem("gettersStore", JSON.stringify(gettercount));
+      localStorage.setItem("materialsStore", JSON.stringify(materials));
+    } catch (e) {}
   }, 2000);
 }

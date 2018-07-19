@@ -36,13 +36,17 @@ while(i < colors.length) {
 }
 $('#colors').html(ah);
 
-var bgc = localStorage.getItem('bgc');
+try {
+  var bgc = localStorage.getItem('bgc');
+} catch (e) {}
 if(bgc !== null) {
   changeColor(bgc);
 }
 
 function changeColor(color) {
-  localStorage.setItem("bgc", color);
+  try {
+    localStorage.setItem("bgc", color);
+  } catch (e) {}
   $('body').css('background-color', color);
   bgc = color;
 }
@@ -92,10 +96,13 @@ function buyButtons() {
 function resetAllStuff() {
   var c = confirm("Are you sure you want to reset?\nThis will erase ALL of your progress PERMANENTLY after pressing 'ok'\nThere is no going back after this.\n\n(your settings will be saved)");
   if(c == true) {
-    localStorage.removeItem("gettersStore");
-    localStorage.removeItem("materialsStore");
+    try {
+      localStorage.removeItem("gettersStore");
+      localStorage.removeItem("materialsStore");
+      location.href = '';
+      localStorage.removeItem("gettersStore");
+      localStorage.removeItem("materialsStore");
+    } catch (e) {}
     location.href = '';
-    localStorage.removeItem("gettersStore");
-    localStorage.removeItem("materialsStore");
   }
 }
