@@ -45,6 +45,7 @@ img.hide {
 .slideout {
   transform: translateX(100vw);
 }
+
 .color {
   display: inline-block;
   min-width: 5em;
@@ -72,5 +73,63 @@ img.settings {
   transition-timing-function: ease-in-out;
 }
 img.settings:hover {
+  transform: scale(1.15);
+}
+
+
+.buymenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /*transform: translateX(-50%) translateY(calc(-50% - .5px));
+  -webkit-transform: translateX(-50%) translateY(calc(-50% - .5px));*/
+
+  width: 30vw;
+  height: 100vh;
+  overflow: auto;
+
+  text-align: center;
+  font-size: 1em;
+
+  background-color: rgba(206, 206, 206, 0.9);
+  border-radius: 1vh;
+
+  transition: 0.25s;
+  transition-timing-function: ease-in-out;
+}
+.slideoutside {
+  transform: translateX(-100%);
+}
+.buymenubtn {
+  position: fixed;
+  left: 1%;
+  bottom: 2%;
+  cursor: pointer;
+}
+img.buymenubtn {
+  width: 5%;
+}
+img.buymenubtn {
+  transition: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+img.buymenubtn:hover {
+  transform: scale(1.15);
+}
+
+.buybtn {
+  font-size: 1.5em;
+  user-select: none;
+  cursor: pointer;
+  display: inline-block;
+  background-color: white;
+  border-radius: 1em;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+
+  transition: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+.buybtn:hover {
   transform: scale(1.15);
 }

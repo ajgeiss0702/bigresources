@@ -102,7 +102,7 @@ var buttons = [
   {
     x: 10,
     y: 2,
-    height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
+    height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text (may be invalid now, remaking buy menu in html)
     text: "Buy mine ("+stuff.mineprice+" stone)",
     click: function() {
       buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
@@ -147,15 +147,12 @@ function main() {
       while(x < getters[Object.keys(getters)[i]].length) {
         getter = getters[Object.keys(getters)[i]][x];
         resp = getter.think();
-        xoffset = 10;
+        xoffset = getter.texture.width * (i*1.3) + 10;
         type = getter.type;
         if(type == "autominer") {
-          xoffset = buttons[0].width + 30;
+          xoffset = (getter.texture.width * (i*1.3)) + 60;
         }
-        if(type == "oilrig") {
-          xoffset = 10+buttons[0].width+5+buttons[1].width+5 + 15;
-        }
-        c.drawImage(getter.texture, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35));
+        c.drawImage(getter.texture, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+5));
         c.font = "15px Arial";
         c.fillStyle = "black";
         c.fillText(Math.round(getter.cd/fps)+1, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
@@ -195,20 +192,20 @@ function main() {
     i = 0;
     while(i < buttons.length) {
       currentbutton = buttons[i];
-      c.font = (buttons[i].height)/1.5+"px Arial";
+      //c.font = (buttons[i].height)/1.5+"px Arial";
       buttons[i].width = c.measureText(buttons[i].text).width+17;
-      c.fillStyle = "lightgrey";
-      c.strokeStyle = "black";
-      c.fillRect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
+      //c.fillStyle = "lightgrey";
+      //c.strokeStyle = "black";
+      //c.fillRect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
       //c.fill();
-      c.rect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
+      //c.rect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
       c.stroke();
-      c.fillStyle = "black";
-      c.font = (buttons[i].height)/1.5+"px Arial";
-      textx = (Number(buttons[i].x)+10);
-      texty = buttons[i].y+(buttons[i].height/1.4);
+      //c.fillStyle = "black";
+      //c.font = (buttons[i].height)/1.5+"px Arial";
+      //textx = (Number(buttons[i].x)+10);
+      //texty = buttons[i].y+(buttons[i].height/1.4);
       //console.log("[" + i + "] x: " + textx + ", y: " + texty);
-      c.fillText(buttons[i].text, textx, texty);
+      //c.fillText(buttons[i].text, textx, texty);
       i++;
     }
 
