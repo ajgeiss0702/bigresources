@@ -19,6 +19,8 @@ function showSettings() {
 var colors = [
   "white",
   "red",
+  "blue",
+  "darkblue",
   "purple",
   "lightgrey",
   "yellow",

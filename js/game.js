@@ -21,7 +21,6 @@ const c = can.getContext("2d");
 setTimeout(function(){
   if(!idone) {
     clearInterval(iv);
-    clearInterval(iv2);
     clearInterval(iv3);
     clearInterval(ivv);
     main();
