@@ -11,10 +11,18 @@ I have probably changed the name because I just thought of something random to n
 
 */
 
+var idone = false;
+
 const can = $('#main')[0];
 var w = window.innerWidth;
 var h = window.innerHeight;
 const c = can.getContext("2d");
+
+setTimeout(function(){
+  if(!idone) {
+    main();
+  }
+}, 5000);
 
 //INTRO thing
 var drawimg = true;
@@ -120,6 +128,7 @@ var buttons = [
 
 
 function main() {
+  idone = true;
   setSaveInterval();
 
   function capitalizeFirst(string) {

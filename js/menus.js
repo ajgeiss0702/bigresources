@@ -93,5 +93,7 @@ function resetAllStuff() {
     localStorage.removeItem("gettersStore");
     localStorage.removeItem("materialsStore");
     location.href = '';
+    localStorage.removeItem("gettersStore");
+    localStorage.removeItem("materialsStore");
   }
 }
