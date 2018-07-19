@@ -77,6 +77,7 @@ var rgs = {
   "oilrigs": "Gives you some oil every 5 seconds. You sell this oil to get 1 gold."
 };
 
+var lastbuybuttons = "";
 function buyButtons() {
   i = 0;
   ah = "";
@@ -87,11 +88,15 @@ function buyButtons() {
     }
     i++;
   }
-  $('[data-toggle="popover"]').popover("hide");
-  $('#buyBtns').html(ah);
-  $('[data-toggle="popover"]').popover({
-    container: 'body'
-  });
+  if(lastbuybuttons !== ah) {
+    //console.log("change new buy buttons: " + lastbuybuttons !== ah);
+    $('[data-toggle="popover"]').popover("hide");
+    $('#buyBtns').html(ah);
+    $('[data-toggle="popover"]').popover({
+      container: 'body'
+    });
+    lastbuybuttons = ah;
+  }
 }
 
 
