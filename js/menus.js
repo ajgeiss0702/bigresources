@@ -71,22 +71,27 @@ function showBuy() {
 
 setInterval(buyButtons, 2000);
 
+var rgs = {
+  "mines": "Gives you 1 stone every 5 seconds. Each stone, you have a 1/10 chance of getting gold",
+  "autominers": "Gives you 1 stone every 2 seconds. Each stone, you have a 1/5 chance of getting gold",
+  "oilrigs": "Gives you some oil every 5 seconds. You sell this oil to get 1 gold."
+};
+
 function buyButtons() {
   i = 0;
   ah = "";
   while(i < buttons.length) {
     if(typeof buttons[i].text !== 'undefined') {
-      var savename = buttons[i].text.split("Buy ")[1].split(" (")[0].replace("-", "").replace(" ", "");
-      if(savename == "automine") {
-        savename += "rs";
-      } else {
-        savename += "s";
-      }
-      ah += '<a class="buybtn" onclick="buttons['+i+'].click()">'+buttons[i].text+' ('+(getters[savename].length)+')</a><br>';
+      var savename = getSaveName(buttons[i].text);
+      ah += '<a class="buybtn" onclick="buttons['+i+'].click()" data-toggle="popover" data-trigger="hover" title="'+savename+'" data-content="'+rgs[savename]+'" data-placement="bottom" data-container="body">'+buttons[i].text+' ('+(getters[savename].length)+')</a><br>';
     }
     i++;
   }
+  $('[data-toggle="popover"]').popover("hide");
   $('#buyBtns').html(ah);
+  $('[data-toggle="popover"]').popover({
+    container: 'body'
+  });
 }
 
 

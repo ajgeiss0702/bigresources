@@ -17,6 +17,18 @@ if(!isChrome) {
   alert("This game was developed on chrome, and runs smoothest on there.\n\nMost things should still work on other browsers, but its not garenteed.");
 }
 
+function getSaveName(bt) {
+  var savename = bt.split("Buy ")[1].split(" (")[0].replace("-", "").replace(" ", "");
+  if(savename == "automine") {
+    savename += "rs";
+  } else {
+    savename += "s";
+  }
+  return savename;
+}
+
+
+
 
 class Mine {
   constructor(precd) {
@@ -31,16 +43,16 @@ class Mine {
     if(typeof this.texture == 'undefined') {
       this.texture = $('#mine')[0];
     }
-    var num = Math.round(Math.random()*200);
-    if(num == 1 & materials.stone >= 20) {
-      if(materials.gold) {
-        materials.gold += 1;
-      } else {
-        materials.gold = 1;
-      }
-      return "gold";
-    }
     if(this.cd <= 0) {
+      var num = Math.round(Math.random()*5);
+      if(num == 1 & materials.stone >= 20) {
+        if(materials.gold) {
+          materials.gold += 1;
+        } else {
+          materials.gold = 1;
+        }
+        return "gold";
+      }
 
       materials.stone += 1;
       this.cd = 75;
@@ -68,16 +80,17 @@ class AutoMiner {
     if(typeof this.texture == 'undefined') {
       this.texture = $('#autominer')[0];
     }
-    var num = Math.round(Math.random()*90);
-    if(num == 1 & materials.stone >= 20) {
-      if(materials.gold) {
-        materials.gold += 1;
-      } else {
-        materials.gold = 1;
-      }
-      return "gold";
-    }
+
     if(this.cd <= 0) {
+      var num = Math.round(Math.random()*5);
+      if(num == 1 & materials.stone >= 20) {
+        if(materials.gold) {
+          materials.gold += 1;
+        } else {
+          materials.gold = 1;
+        }
+        return "gold";
+      }
 
       materials.stone += 1;
       this.cd = 30;
