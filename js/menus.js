@@ -82,3 +82,16 @@ function buyButtons() {
   }
   $('#buyBtns').html(ah);
 }
+
+
+
+
+
+function resetAllStuff() {
+  var c = confirm("Are you sure you want to reset?\nThis will erase ALL of your progress PERMANENTLY after pressing 'ok'\nThere is no going back after this.\n\n(your settings will be saved)");
+  if(c == true) {
+    localStorage.removeItem("gettersStore");
+    localStorage.removeItem("materialsStore");
+    location.href = '';
+  }
+}
