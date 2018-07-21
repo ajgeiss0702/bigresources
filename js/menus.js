@@ -37,17 +37,16 @@ while(i < colors.length) {
 $('#colors').html(ah);
 
 try {
-  var bgc = localStorage.getItem('bgc');
+  var bgc = settings.bgc;
 } catch (e) {}
 if(bgc !== null) {
   changeColor(bgc);
 }
 
 function changeColor(color) {
-  try {
-    localStorage.setItem("bgc", color);
-  } catch (e) {}
+  settings.bgc = color;
   $('body').css('background-color', color);
+  //$('#materials').css('background-color', color);
   bgc = color;
 }
 
@@ -116,3 +115,46 @@ function resetAllStuff() {
     location.href = '';
   }
 }
+
+
+
+getterCountLoad();
+function getterCountLoad() {
+  if(typeof settings.gettercount !== 'undefined') {
+    if(settings.gettercount) {
+      $('#gettercount')[0].className = "btn btn-outline-danger";
+      $('#gettercount').text('Disable');
+    } else {
+      $('#gettercount')[0].className = "btn btn-outline-success";
+      $('#gettercount').text('Enable');
+    }
+  } else {
+    settings.gettercount = false;
+    $('#gettercount')[0].className = "btn btn-outline-success";
+    $('#gettercount').text('Enable');
+  }
+}
+
+function getterCountChange() {
+  if(settings.gettercount) {
+    settings.gettercount = false;
+    $('#gettercount')[0].className = "btn btn-outline-success";
+    $('#gettercount').text('Enable');
+  } else {
+    settings.gettercount = true;
+    $('#gettercount')[0].className = "btn btn-outline-danger";
+    $('#gettercount').text('Disable');
+  }
+}
+
+var lm = JSON.parse(JSON.stringify(materials));
+setInterval(function(){
+  i = 0;
+  while(i < Object.keys(materials).length) {
+    key = Object.keys(materials)[i];
+    mps[key] = materials[key] - lm[key];
+    //console.log("key: " + key + " i: " + i + " mps[key]: " + mps[key] + " materials[key]: " + materials[key] + " lm[key]: " + lm[key] + " subtracted: " + (materials[key] - lm[key]));
+    i++;
+  }
+  lm = JSON.parse(JSON.stringify(materials));
+}, 1000);

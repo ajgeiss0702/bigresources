@@ -26,9 +26,17 @@ function getSaveName(bt) {
   }
   return savename;
 }
-
-
-
+var settings = {};
+function loaded() {
+  changeColor(bgc);
+  try {
+    settings = JSON.parse(localStorage.getItem("settings")) || {};
+    if(typeof localStorage.getItem("bgc") == 'string') {
+      settings.bgc = localStorage.getItem("bgc");
+      localStorage.removeItem("bgc");
+    }
+  } catch(e) {}
+}
 
 class Mine {
   constructor(precd) {
@@ -200,6 +208,7 @@ function loadGetters() {
 var getters = { mines: [], autominers: [], oilrigs: [] };
 loadGetters();
 var materials = {stone: 0};
+var mps = {stone: 0};
 try {
   materials = JSON.parse(localStorage.getItem("materialsStore")) || { stone: 0 };
 } catch (e) {}
@@ -219,6 +228,7 @@ function setSaveInterval() {
     try {
       localStorage.setItem("gettersStore", JSON.stringify(gettercount));
       localStorage.setItem("materialsStore", JSON.stringify(materials));
+      localStorage.setItem("settings", JSON.stringify(settings));
     } catch (e) {}
   }, 2000);
 }

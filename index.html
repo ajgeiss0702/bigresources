@@ -26,7 +26,7 @@
 
 
   </head>
-  <body>
+  <body onload='loaded()'>
 
 
     <div class="settingsbox slideout">
@@ -36,6 +36,12 @@
       <br><br>
       <h3>Reset</h3>
       <a class="buybtn" style="font-size: 1em; border-style: solid; border-color: red; background-color: pink;" onclick="resetAllStuff()">Reset everything</a>
+      <br><br>
+      <h3>Only show count</h3>
+      Instead of drawing an image for each mine you have, it will draw 1 image with the number next to it.<br>
+      This will improve performance, so enable this if you are having lag issues, or your computer is running slow.<br>
+      <a id="gettercount" onclick="getterCountChange()"></a>
+
       <br><br><br>
       <hr>
       <h2>Big Resources</h2>
@@ -48,6 +54,8 @@
         <img class="settings" src="img/settings.png">
       </a>
     </div>
+
+    <div class="materials" id="materials"></div>
 
 
     <div class="buymenu slideoutside">
@@ -65,7 +73,7 @@
     <canvas id="main" class="main"></canvas>
     <img id="ajlogo" class="hide" src="img/logo.png">
     <img id="mine" class="hide" src="img/mine.gif">
-    <img id="stone" class="hide" src="img/rock.png">
+    <img id="stone" class="hide" src="img/stone.png">
     <img id="autominer" class="hide" src="img/autominer.png">
     <img id="gold" class="hide" src="img/gold.png">
     <img id="oilrig" class="hide" src = "img/oilrig.png">

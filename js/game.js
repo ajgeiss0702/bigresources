@@ -36,6 +36,7 @@ setTimeout(function(){
   }
 }, 5000);
 
+
 //INTRO thing
 var drawimg = true;
 can.width = w;
@@ -43,6 +44,7 @@ can.height = h;
 var i = 0;
 var i2 = 0;
 var iv = setInterval(function() {
+  changeColor(settings.bgc);
   c.strokeStyle = "black";
 
   c.moveTo(0, 0);
@@ -61,7 +63,7 @@ var iv = setInterval(function() {
         ii = i3*i3;
         //console.log(i3+", "+ii+", "+Math.sqrt(ii));
         try {
-          c.fillStyle = localStorage.getItem('bgc') || "white";
+          c.fillStyle = settings.bgc || "white";
         } catch (e) {}
         c.fillRect((((w)-(img.width))/2)-10, ((h-img.height)/2)-10, img.width+20, Math.sqrt(ii)+20);
         c.drawImage(img, ((w)-(img.width))/2, (h-img.height)/2, img.width, i3);
@@ -73,7 +75,7 @@ var iv = setInterval(function() {
         var i5 = 0;
         var iv3 = setInterval(function() {
           try {
-            c.strokeStyle = localStorage.getItem('bgc') || "white";
+            c.strokeStyle = settings.bgc || "white";
           } catch (e) {}
 
           c.moveTo(0, 0);
@@ -96,7 +98,7 @@ var iv = setInterval(function() {
                 iii+= 0.05;
                 c.globalAlpha = iii;
                 try {
-                  c.fillStyle = localStorage.getItem('bgc') || "white";
+                  c.fillStyle = settings.bgc || "white";
                 } catch (e) {}
                 c.fillRect(0, 0, w, h);
                 if(iii >= 0.7) {
@@ -144,196 +146,219 @@ var buttons = [
   {}
 ];
 
+function capitalizeFirst(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 function main() {
-  idone = true;
-  setSaveInterval();
+  if(!idone) {
+    idone = true;
+    setSaveInterval();
+    getterCountChange();
+    setTimeout(function(){
+      getterCountChange();
+      console.log("toggled!");
+    }, 100);
 
-  function capitalizeFirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
 
-  //make player's first mine
-  new Mine();
+    //make player's first mine
+    new Mine();
 
-  var recalcbuttons = false;
+    var recalcbuttons = false;
 
- /* * * * * * * * * * * *
-  *                     *
-  * MAIN THINK INTERVAL *
-  *                     *
-  * * * * * * * * * * * */
-  var maininval = setInterval(function() {
-    c.clearRect(0, 0, w, h);
-    c.beginPath();
+   /* * * * * * * * * * * *
+    *                     *
+    * MAIN THINK INTERVAL *
+    *                     *
+    * * * * * * * * * * * */
+    var maininval = setInterval(function() {
+      c.clearRect(0, 0, w, h);
+      c.beginPath();
 
-    i = 0;
-    x = 0;
-    while(i < Object.keys(getters).length) {
+      i = 0;
       x = 0;
-      while(x < getters[Object.keys(getters)[i]].length) {
-        getter = getters[Object.keys(getters)[i]][x];
-        resp = getter.think();
-        xoffset = getter.texture.width * (i*1.3) + 10;
-        type = getter.type;
-        if(type == "autominer") {
-          xoffset = (getter.texture.width * (i*1.3)) + 60;
-        }
-        c.drawImage(getter.texture, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+5));
-        c.font = "15px Arial";
-        c.fillStyle = "black";
-        c.fillText(Math.round(getter.cd/fps)+1, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
-        if(resp == "stone") {
-          c.drawImage($('#stone')[0], ((xoffset+getter.texture.width)-60), ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60));
-          getter.returnedStone = 1;
-        } else if(resp == "gold") {
-          img = $('#gold')[0];
-          c.drawImage(img, ((xoffset+getter.texture.width)-60), ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60));
-          getter.returnedGold = 1;
-        }
-        if(getter.returnedStone !== false) {
-          getter.returnedStone -= 0.1;
-          c.globalAlpha = getter.returnedStone;
-          movingx = (50-(getter.returnedStone*100)/2)*1.25;
-          c.drawImage($('#stone')[0], ((xoffset+getter.texture.width)-60)+movingx, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60)-movingx);
-          c.globalAlpha = 1;
-          if(getter.returnedStone <= 0.1) {
-            getter.returnedStone = false;
+      while(i < Object.keys(getters).length) {
+        x = 0;
+        if(!settings.gettercount) {
+          while(x < getters[Object.keys(getters)[i]].length) {
+            getter = getters[Object.keys(getters)[i]][x];
+            resp = getter.think();
+            xoffset = getter.texture.width * (i*1.3) + 10;
+            type = getter.type;
+            if(type == "autominer") {
+              xoffset = (getter.texture.width * (i*1.3)) + 60;
+            }
+            c.drawImage(getter.texture, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+5));
+            c.font = "15px Arial";
+            c.fillStyle = "black";
+            c.fillText(Math.round(getter.cd/fps)+1, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
+            if(resp == "stone") {
+              c.drawImage($('#stone')[0], ((xoffset+getter.texture.width)-60), ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60));
+              getter.returnedStone = 1;
+            } else if(resp == "gold") {
+              img = $('#gold')[0];
+              c.drawImage(img, ((xoffset+getter.texture.width)-60), ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60));
+              getter.returnedGold = 1;
+            }
+            if(getter.returnedStone !== false) {
+              getter.returnedStone -= 0.1;
+              c.globalAlpha = getter.returnedStone;
+              movingx = (50-(getter.returnedStone*100)/2)*1.25;
+              c.drawImage($('#stone')[0], ((xoffset+getter.texture.width)-60)+movingx, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60)-movingx);
+              c.globalAlpha = 1;
+              if(getter.returnedStone <= 0.1) {
+                getter.returnedStone = false;
+              }
+            }
+            if(getter.returnedGold !== false) {
+              getter.returnedGold -= 0.1;
+              c.globalAlpha = getter.returnedGold;
+              movingx = (50-(getter.returnedGold*100)/2)*1.25;
+              c.drawImage($('#gold')[0], ((xoffset+getter.texture.width)-60)+movingx, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60)-movingx);
+              c.globalAlpha = 1;
+              if(getter.returnedGold <= 0.1) {
+                getter.returnedGold = false;
+              }
+            }
+            x++;
           }
-        }
-        if(getter.returnedGold !== false) {
-          getter.returnedGold -= 0.1;
-          c.globalAlpha = getter.returnedGold;
-          movingx = (50-(getter.returnedGold*100)/2)*1.25;
-          c.drawImage($('#gold')[0], ((xoffset+getter.texture.width)-60)+movingx, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60)-movingx);
-          c.globalAlpha = 1;
-          if(getter.returnedGold <= 0.1) {
-            getter.returnedGold = false;
+        } else { try {
+          xoffset = getters[Object.keys(getters)[i]][0].texture.width * (i*1.3) + 10;
+          type = getters[Object.keys(getters)[i]][0].type;
+          if(type == "autominer") {
+            xoffset = (getters[Object.keys(getters)[i]][0].texture.width * (i*1.3)) + 60;
           }
+          c.fillStyle = "black";
+          c.drawImage(getters[Object.keys(getters)[i]][0].texture, xoffset, 10);
+          c.fillText(getters[Object.keys(getters)[i]].length, (xoffset+(getters[Object.keys(getters)[i]][0].texture.width/2))-c.measureText(getters[Object.keys(getters)[i]].length).width, 20+(getters[Object.keys(getters)[i]][0].texture.height));
+          while(x < getters[Object.keys(getters)[i]].length) {
+            getter = getters[Object.keys(getters)[i]][x];
+            resp = getter.think();
+            x++;
+          }
+        } catch(e) {}
         }
-        x++;
+        i++;
       }
-      i++;
-    }
 
-    i = 0;
-    while(i < buttons.length) {
-      currentbutton = buttons[i];
-      //c.font = (buttons[i].height)/1.5+"px Arial";
-      buttons[i].width = c.measureText(buttons[i].text).width+17;
-      //c.fillStyle = "lightgrey";
-      //c.strokeStyle = "black";
-      //c.fillRect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
-      //c.fill();
-      //c.rect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
-      c.stroke();
-      //c.fillStyle = "black";
-      //c.font = (buttons[i].height)/1.5+"px Arial";
-      //textx = (Number(buttons[i].x)+10);
-      //texty = buttons[i].y+(buttons[i].height/1.4);
-      //console.log("[" + i + "] x: " + textx + ", y: " + texty);
-      //c.fillText(buttons[i].text, textx, texty);
-      i++;
-    }
-
-    var adding = "";
-    i = 0;
-    while(i < Object.keys(materials).length) {
-      c.fillStyle = "black";
-      c.strokeStyle = "black";
-      c.font="30px Arial";
-      adding += "  " + capitalizeFirst(Object.keys(materials)[i])+": " + materials[Object.keys(materials)[i]];
-      c.stroke();
-      i++;
-    }
-    c.fillText(adding, w-(c.measureText(adding).width+10), 40);
-
-    if(typeof materials.gold !== 'undefined' & typeof buttons[1].text == "undefined") {
-      buttons[1] = {
-        x: 10+buttons[0].width+5,
-        y: 2,
-        height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
-        text: "Buy auto-mine (15 gold & 50 stone)",
-        click: function() {
-          if(materials.gold >= 15 & materials.stone >= 50) {
-            materials.stone -= 50;
-            materials.gold -= 15;
-            new AutoMiner();
-          } else {
-            moregold = (materials.gold-15)*-1;
-            if(moregold < 0) {
-              moregold = 0;
-            }
-            morestone = (materials.stone-50)*-1;
-            if(morestone < 0) {
-              morestone = 0;
-            }
-            alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
-          }
-        }
-      };
-    }
-    if(getters.autominers.length >= 5 & typeof buttons[2].text == "undefined" & typeof buttons[1].width !== "undefined" & typeof buttons[0] !== "undefined") {
-      buttons[2] = {
-        x: 10+buttons[0].width+5+buttons[1].width+5,
-        y: 2,
-        height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
-        text: "Buy oil rig (50 gold)",
-        click: function() {
-          console.log("Attempting to buy oil rig!");
-          if(materials.gold >= 50) {
-            materials.gold -= 50;
-            new OilRig();
-          } else {
-            moregold = (50-materials.gold);
-            if(moregold < 0) {
-              moregold = 0;
-            }
-            alert("You do not have enough resources! You need " + moregold + " more gold to buy that!");
-          }
-        }
-      };
-    }
-    if(recalcbuttons) {
-      buttons[1].x = buttons[0].width+15;
-      buttons[2].x = 10+buttons[0].width+5+buttons[1].width+5;
-    }
-    if(getters.autominers.length >= 2 & stuff.mineprice < 37) {
-      stuff.mineprice = 37;
-      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-    } else if(getters.autominers.length >= 10 & stuff.mineprice < 50) {
-      stuff.mineprice = 50;
-      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-    } else if(getters.autominers.length >= 25 & stuff.mineprice < 100) {
-      stuff.mineprice = 100;
-      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-      recalcbuttons = true;
-    }
-  }, 1000/fps);
-
-
-
-  // button click
-  function getMousePos(event) {
-      var rect = can.getBoundingClientRect();
-      return {
-          x: event.clientX - rect.left,
-          y: event.clientY - rect.top
-      };
-  }
-  function isInside(pos, rect){
-      return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
-  }
-  can.addEventListener('click', function(evt) {
-    var mpos = getMousePos(evt);
-    i = 0;
-    while(i < buttons.length) {
-      if(isInside(mpos, buttons[i])) {
-        console.log("Calling click for button with text '"+buttons[i].text+"'");
-        buttons[i].click();
+      i = 0;
+      while(i < buttons.length) {
+        currentbutton = buttons[i];
+        //c.font = (buttons[i].height)/1.5+"px Arial";
+        buttons[i].width = c.measureText(buttons[i].text).width+17;
+        //c.fillStyle = "lightgrey";
+        //c.strokeStyle = "black";
+        //c.fillRect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
+        //c.fill();
+        //c.rect(buttons[i].x, buttons[i].y, buttons[i].width, buttons[i].height);
+        c.stroke();
+        //c.fillStyle = "black";
+        //c.font = (buttons[i].height)/1.5+"px Arial";
+        //textx = (Number(buttons[i].x)+10);
+        //texty = buttons[i].y+(buttons[i].height/1.4);
+        //console.log("[" + i + "] x: " + textx + ", y: " + texty);
+        //c.fillText(buttons[i].text, textx, texty);
+        i++;
       }
-      i++;
-    }
-  }, false);
 
+      var adding = "<table class='materials'>";
+      i = 0;
+      while(i < Object.keys(materials).length) {
+        //adding += "  " + capitalizeFirst(Object.keys(materials)[i])+": " + materials[Object.keys(materials)[i]];
+        adding += "<tr><td align='right'>" + materials[Object.keys(materials)[i]] + "</td><td align='center'><img src='img/"+Object.keys(materials)[i]+".png'></td><td style='min-width: 8vw; max-width; 8vw; width: 8vw;'>"+mps[Object.keys(materials)[i]]+"/s</td></tr>";
+        i++;
+      }
+      //c.fillText(adding, w-(c.measureText(adding).width+10), 40);
+      $('#materials').html(adding+"</table>");
+
+      if(typeof materials.gold !== 'undefined' & typeof buttons[1].text == "undefined") {
+        buttons[1] = {
+          x: 10+buttons[0].width+5,
+          y: 2,
+          height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
+          text: "Buy auto-mine (15 gold & 50 stone)",
+          click: function() {
+            if(materials.gold >= 15 & materials.stone >= 50) {
+              materials.stone -= 50;
+              materials.gold -= 15;
+              new AutoMiner();
+            } else {
+              moregold = (materials.gold-15)*-1;
+              if(moregold < 0) {
+                moregold = 0;
+              }
+              morestone = (materials.stone-50)*-1;
+              if(morestone < 0) {
+                morestone = 0;
+              }
+              alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
+            }
+          }
+        };
+      }
+      if(getters.autominers.length >= 5 & typeof buttons[2].text == "undefined" & typeof buttons[1].width !== "undefined" & typeof buttons[0] !== "undefined") {
+        buttons[2] = {
+          x: 10+buttons[0].width+5+buttons[1].width+5,
+          y: 2,
+          height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
+          text: "Buy oil rig (50 gold)",
+          click: function() {
+            console.log("Attempting to buy oil rig!");
+            if(materials.gold >= 50) {
+              materials.gold -= 50;
+              new OilRig();
+            } else {
+              moregold = (50-materials.gold);
+              if(moregold < 0) {
+                moregold = 0;
+              }
+              alert("You do not have enough resources! You need " + moregold + " more gold to buy that!");
+            }
+          }
+        };
+      }
+      if(recalcbuttons) {
+        buttons[1].x = buttons[0].width+15;
+        buttons[2].x = 10+buttons[0].width+5+buttons[1].width+5;
+      }
+      if(getters.autominers.length >= 2 & stuff.mineprice < 37) {
+        stuff.mineprice = 37;
+        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
+      } else if(getters.autominers.length >= 10 & stuff.mineprice < 50) {
+        stuff.mineprice = 50;
+        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
+      } else if(getters.autominers.length >= 25 & stuff.mineprice < 100) {
+        stuff.mineprice = 100;
+        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
+        recalcbuttons = true;
+      }
+    }, 1000/fps);
+
+
+
+    //button click
+    can.addEventListener('click', function(evt) {
+      var mpos = getMousePos(evt);
+      i = 0;
+      while(i < buttons.length) {
+        if(isInside(mpos, buttons[i])) {
+          console.log("Calling click for button with text '"+buttons[i].text+"'");
+          buttons[i].click();
+        }
+        i++;
+      }
+    }, false);
+  }
+}
+
+// button click
+function getMousePos(event) {
+    var rect = can.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+    };
+}
+function isInside(pos, rect){
+    return pos.x > rect.x && pos.x < rect.x+rect.width && pos.y < rect.y+rect.height && pos.y > rect.y;
 }

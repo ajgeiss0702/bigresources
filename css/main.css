@@ -15,7 +15,7 @@ canvas.main {
 body, html {
   padding: 0;
   margin: 0;
-  transition: 0.5s;
+  transition: 0.2s;
   transition-timing-function: ease-in-out;
 }
 img.hide {
@@ -126,6 +126,8 @@ img.buymenubtn:hover {
   border-radius: 1em;
   padding: 0.5em;
   margin-bottom: 0.5em;
+  margin-left: 1.25em;
+  margin-right: 1.25em;
 
   transition: 0.2s;
   transition-timing-function: ease-in-out;
@@ -133,3 +135,18 @@ img.buymenubtn:hover {
 .buybtn:hover {
   transform: scale(1.15);
 }
+
+
+.materials {
+  position: fixed;
+  right: -8vw;
+  top: 0;
+
+  font-size: 1.5em;
+  text-align: right;
+
+
+}
+/*.materials:hover {
+  right: 0;
+}*/
