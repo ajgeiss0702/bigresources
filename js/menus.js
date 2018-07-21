@@ -158,3 +158,12 @@ setInterval(function(){
   }
   lm = JSON.parse(JSON.stringify(materials));
 }, 1000);
+
+
+$('#materials').hover(function(){
+  console.log("hover");
+  $('#materials')[0].className = 'materials materialshover';
+},function(){
+  console.log("un-hover");
+  $('#materials')[0].className = 'materials';
+});

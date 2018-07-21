@@ -139,14 +139,15 @@ img.buymenubtn:hover {
 
 .materials {
   position: fixed;
-  right: -8vw;
   top: 0;
+  right: -8vw;
 
   font-size: 1.5em;
   text-align: right;
 
-
+  transition: 0.3s;
+  transition-timing-function: ease-in-out;
 }
-/*.materials:hover {
-  right: 0;
-}*/
+.materialshover {
+  transform: translateX(-16vw);
+}
