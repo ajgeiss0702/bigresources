@@ -265,7 +265,7 @@ function main() {
       i = 0;
       while(i < Object.keys(materials).length) {
         //adding += "  " + capitalizeFirst(Object.keys(materials)[i])+": " + materials[Object.keys(materials)[i]];
-        adding += "<tr><td align='right'>" + materials[Object.keys(materials)[i]] + "</td><td align='center'><img src='img/"+Object.keys(materials)[i]+".png'></td><td style='min-width: 8vw; max-width; 8vw; width: 8vw;'>"+mps[Object.keys(materials)[i]]+"/s</td></tr>";
+        adding += "<tr><td align='right'>" + addCommas(materials[Object.keys(materials)[i]]) + "</td><td align='center'><img src='img/"+Object.keys(materials)[i]+".png'></td><td style='min-width: 8vw; max-width; 8vw; width: 8vw;'>"+mps[Object.keys(materials)[i]]+"/s</td></tr>";
         i++;
       }
       //c.fillText(adding, w-(c.measureText(adding).width+10), 40);

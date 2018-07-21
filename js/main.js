@@ -17,6 +17,10 @@ if(!isChrome) {
   alert("This game was developed on chrome, and runs smoothest on there.\n\nMost things should still work on other browsers, but its not garenteed.");
 }
 
+function addCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function getSaveName(bt) {
   var savename = bt.split("Buy ")[1].split(" (")[0].replace("-", "").replace(" ", "");
   if(savename == "automine") {
