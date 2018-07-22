@@ -154,3 +154,7 @@ img.buymenubtn:hover {
 .materialshover {
   transform: translateX(-16vw);
 }
+
+.whitetext {
+  color: white;
+}

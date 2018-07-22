@@ -46,6 +46,9 @@ var i2 = 0;
 var iv = setInterval(function() {
   changeColor(settings.bgc);
   c.strokeStyle = "black";
+  if(bgc == "black" || bgc == "rgb(54, 57, 53)") {
+    c.strokeStyle ='lightgrey';
+  }
 
   c.moveTo(0, 0);
   c.lineTo(w/2, i);
@@ -90,6 +93,9 @@ var iv = setInterval(function() {
               c.fillStyle="black";
               c.font="40px Arial";
               tw = c.measureText("games");
+              if(bgc == "black" || bgc == "rgb(54, 57, 53)") {
+                c.fillStyle='lightgrey';
+              }
               c.fillText("games", ((w)-(tw.width))/2, ((h/2)+90));
             }
             setTimeout(function() {
@@ -239,7 +245,10 @@ function main() {
             c.drawImage(getter.texture, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+5));
             c.font = "15px Arial";
             c.fillStyle = "black";
-            c.fillText(Math.round(getter.cd/fps)+1, xoffset, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
+            if(bgc == "black" || bgc == "rgb(54, 57, 53)") {
+              c.fillStyle='lightgrey';
+            }
+            c.fillText(Math.round(getter.cd/fps)+1, xoffset-5, ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+35)+12);
             if(resp == "stone") {
               c.drawImage($('#stone')[0], ((xoffset+getter.texture.width)-60), ((((h-(getter.texture.height-45))/getters[Object.keys(getters)[i]].length)*x)+60));
               getter.returnedStone = 1;
@@ -277,6 +286,9 @@ function main() {
             xoffset = (getters[Object.keys(getters)[i]][0].texture.width * (i*1.3)) + 60;
           }
           c.fillStyle = "black";
+          if(bgc == "black" || bgc == "rgb(54, 57, 53)") {
+            c.fillStyle='lightgrey';
+          }
           c.drawImage(getters[Object.keys(getters)[i]][0].texture, xoffset, 10);
           c.fillText(getters[Object.keys(getters)[i]].length, (xoffset+(getters[Object.keys(getters)[i]][0].texture.width/2))-c.measureText(getters[Object.keys(getters)[i]].length).width, 20+(getters[Object.keys(getters)[i]][0].texture.height));
           while(x < getters[Object.keys(getters)[i]].length) {
@@ -313,7 +325,12 @@ function main() {
       i = 0;
       while(i < Object.keys(materials).length) {
         //adding += "  " + capitalizeFirst(Object.keys(materials)[i])+": " + materials[Object.keys(materials)[i]];
-        adding += "<tr><td align='right'>" + addCommas(materials[Object.keys(materials)[i]]) + "</td><td align='center'><img src='img/"+Object.keys(materials)[i]+".png'></td><td style='min-width: 8vw; max-width; 8vw; width: 8vw;'>"+mps[Object.keys(materials)[i]]+"/s</td></tr>";
+        if(bgc == "black" || bgc == "rgb(54, 57, 53)") {
+          ac = "class='whitetext'";
+        } else {
+          ac = "";
+        }
+        adding += "<tr><td align='right' "+ac+">" + addCommas(materials[Object.keys(materials)[i]]) + "</td><td align='center' "+ac+"><img src='img/"+Object.keys(materials)[i]+".png'></td><td style='min-width: 8vw; max-width; 8vw; width: 8vw;' "+ac+">"+mps[Object.keys(materials)[i]]+"/s</td></tr>";
         i++;
       }
       //c.fillText(adding, w-(c.measureText(adding).width+10), 40);

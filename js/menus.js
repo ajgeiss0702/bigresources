@@ -45,6 +45,7 @@ if(bgc !== null) {
 
 function changeColor(color) {
   settings.bgc = color;
+  console.log("color: " + color);
   $('body').css('background-color', color);
   //$('#materials').css('background-color', color);
   bgc = color;
