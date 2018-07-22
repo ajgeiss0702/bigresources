@@ -59,10 +59,13 @@ var buyshown;
 function showBuy() {
   if(buyshown) {
     $('.buymenu')[0].className = 'buymenu slideoutside';
+    $('body').css('padding', '0');
+    $('body, html').css('overflow-y', 'hidden');
     buyshown = false;
     return buyshown;
   } else {
     $('.buymenu')[0].className = 'buymenu';
+    $('body').css('padding-left', '30vw');
     buyshown = true;
     return buyshown;
   }
