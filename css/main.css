@@ -21,6 +21,9 @@ body, html {
 img.hide {
   display: none;
 }
+.hidden {
+  display: none;
+}
 
 .settingsbox {
   position: fixed;

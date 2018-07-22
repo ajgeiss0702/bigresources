@@ -160,10 +160,10 @@ setInterval(function(){
 }, 1000);
 
 
-$('#materials').hover(function(){
+$('#materials').hover(function() {
   console.log("hover");
   $('#materials')[0].className = 'materials materialshover';
-},function(){
+}, function() {
   console.log("un-hover");
   $('#materials')[0].className = 'materials';
 });

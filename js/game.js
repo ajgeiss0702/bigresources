@@ -124,22 +124,52 @@ var iv = setInterval(function() {
   }
 }, 1);
 
-var stuff = {mineprice: 10};
+var ostuff = {
+  prices: {
+    mines: {
+      stone: 10
+    },
+    autominers: {
+      gold: 15,
+      stone: 50
+    },
+    oilrigs: {
+      gold: 50
+    }
+  }
+};
+var stuff = {
+  prices: {
+    mines: {
+      stone: 10
+    },
+    autominers: {
+      gold: 15,
+      stone: 50
+    },
+    oilrigs: {
+      gold: 50
+    }
+  }
+};
 // buttons
 var buttons = [
   {
     x: 10,
     y: 2,
     height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text (may be invalid now, remaking buy menu in html)
-    text: "Buy mine ("+stuff.mineprice+" stone)",
+    text: "Buy mine ("+stuff.prices.mines.stone+" stone)",
     click: function() {
-      buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-      if(materials.stone >= stuff.mineprice) {
+      buttons[0].text = "Buy mine ("+stuff.prices.mines.stone+" stone)";
+      if(materials.stone >= stuff.prices.mines.stone) {
         new Mine();
-        materials.stone -= stuff.mineprice;
+        materials.stone -= stuff.prices.mines.stone;
       } else {
-        alert("You do not have enough stone! You need " + ((materials.stone-stuff.mineprice)*-1) + " more stone to buy that!");
+        alert("You do not have enough stone! You need " + ((materials.stone-stuff.prices.mines.stone)*-1) + " more stone to buy that!");
       }
+    },
+    update: function(){
+      this.text = "Buy mine ("+stuff.prices.mines.stone+" stone)";
     }
   },
   {},
@@ -152,6 +182,7 @@ function capitalizeFirst(string) {
 
 function main() {
   if(!idone) {
+    $('.hidden').removeClass('hidden');
     idone = true;
     setSaveInterval();
     getterCountChange();
@@ -174,6 +205,23 @@ function main() {
     var maininval = setInterval(function() {
       c.clearRect(0, 0, w, h);
       c.beginPath();
+
+      y = 0;
+      while(y < Object.keys(getters).length) {
+        if(y > 0) {
+          //console.log(Object.keys(getters)[y-1]+" before: g" + stuff.prices[Object.keys(getters)[y-1]].gold + " s"+stuff.prices[Object.keys(getters)[y-1]].stone);
+          if(getters[Object.keys(getters)[y]].length > 0) {
+            if(typeof stuff.prices[Object.keys(getters)[y-1]].gold !== 'undefined') {
+              stuff.prices[Object.keys(getters)[y-1]].gold = Math.floor(ostuff.prices[Object.keys(getters)[y-1]].gold*1.05*getters[Object.keys(getters)[y]].length);
+            }
+            if(typeof stuff.prices[Object.keys(getters)[y-1]].stone !== 'undefined') {
+              stuff.prices[Object.keys(getters)[y-1]].stone = Math.floor(ostuff.prices[Object.keys(getters)[y-1]].stone*1.05*getters[Object.keys(getters)[y]].length);
+            }
+          }
+          //console.log(Object.keys(getters)[y-1]+" after: g" + stuff.prices[Object.keys(getters)[y-1]].gold + " s"+stuff.prices[Object.keys(getters)[y-1]].stone);
+        }
+        y++;
+      }
 
       i = 0;
       x = 0;
@@ -276,23 +324,26 @@ function main() {
           x: 10+buttons[0].width+5,
           y: 2,
           height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
-          text: "Buy auto-mine (15 gold & 50 stone)",
+          text: "Buy auto-mine ("+stuff.prices.autominers.gold+" gold & "+stuff.prices.autominers.stone+" stone)",
           click: function() {
-            if(materials.gold >= 15 & materials.stone >= 50) {
-              materials.stone -= 50;
-              materials.gold -= 15;
+            if(materials.gold >= stuff.prices.autominers.gold & materials.stone >= stuff.prices.autominers.stone) {
+              materials.stone -= stuff.prices.autominers.stone;
+              materials.gold -= stuff.prices.autominers.gold;
               new AutoMiner();
             } else {
-              moregold = (materials.gold-15)*-1;
+              moregold = (materials.gold-stuff.prices.autominers.gold)*-1;
               if(moregold < 0) {
                 moregold = 0;
               }
-              morestone = (materials.stone-50)*-1;
+              morestone = (materials.stone-stuff.prices.autominers.stone)*-1;
               if(morestone < 0) {
                 morestone = 0;
               }
               alert("You do not have enough resources! You need " + morestone + " more stone and " + moregold + " more gold to buy that!");
             }
+          },
+          update: function(){
+            this.text = "Buy auto-mine ("+stuff.prices.autominers.gold+" gold & "+stuff.prices.autominers.stone+" stone)";
           }
         };
       }
@@ -301,19 +352,22 @@ function main() {
           x: 10+buttons[0].width+5+buttons[1].width+5,
           y: 2,
           height: 25, // NOTE TO FUTURE SELF: text will expand to fit height and box will become wider to fix text
-          text: "Buy oil rig (50 gold)",
+          text: "Buy oil rig ("+stuff.prices.oilrigs.gold+" gold)",
           click: function() {
             console.log("Attempting to buy oil rig!");
-            if(materials.gold >= 50) {
-              materials.gold -= 50;
+            if(materials.gold >= stuff.prices.oilrigs.gold) {
+              materials.gold -= stuff.prices.oilrigs.gold;
               new OilRig();
             } else {
-              moregold = (50-materials.gold);
+              moregold = (stuff.prices.oilrigs.gold-materials.gold);
               if(moregold < 0) {
                 moregold = 0;
               }
               alert("You do not have enough resources! You need " + moregold + " more gold to buy that!");
             }
+          },
+          update: function(){
+            this.text = "Buy oil rig ("+stuff.prices.oilrigs.gold+" gold)";
           }
         };
       }
@@ -321,16 +375,10 @@ function main() {
         buttons[1].x = buttons[0].width+15;
         buttons[2].x = 10+buttons[0].width+5+buttons[1].width+5;
       }
-      if(getters.autominers.length >= 2 & stuff.mineprice < 37) {
-        stuff.mineprice = 37;
-        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-      } else if(getters.autominers.length >= 10 & stuff.mineprice < 50) {
-        stuff.mineprice = 50;
-        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-      } else if(getters.autominers.length >= 25 & stuff.mineprice < 100) {
-        stuff.mineprice = 100;
-        buttons[0].text = "Buy mine ("+stuff.mineprice+" stone)";
-        recalcbuttons = true;
+      i = 0;
+      while(i < buttons.length) {
+        buttons[i].update();
+        i++;
       }
     }, 1000/fps);
 
