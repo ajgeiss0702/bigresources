@@ -31,6 +31,7 @@ function getSaveName(bt) {
   return savename;
 }
 var settings = {};
+settings = JSON.parse(localStorage.getItem("settings")) || {};
 function loaded() {
   changeColor(bgc);
   try {
